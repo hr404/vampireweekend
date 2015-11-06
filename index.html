@@ -5,16 +5,138 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
 		<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
 		<style>
-			#body {padding:0;
-					margin0;}
-			html, body, #map {height:100%;}
+			#body {
+				padding:0;
+			} 
+			html, body, #map {
+				height:100%;
+				margin:0px;
+			}
+			
+			#boxes .window {
+				  position: absolute;
+				  left: 0;
+				  top: 0;
+				  width: 440px;
+				  height: 200px;
+				  display: none;
+				  z-index: 9999;
+				  padding: 20px;
+				  border-radius: 15px;
+				  text-align: center;
+				}
+
+				.window h1 {
+				  font-size: 18pt;
+				}
+
+				.window h2 {
+				  font-size: 10pt;
+				}
+
+				.window h3 {
+				  font-size: 9pt;
+				  color: #fff;
+				}
+
+				.window a {
+				  color: #fff;
+				}
+
+				#boxes #dialog {
+				  width: 800px;
+				  height: 410px;
+				  padding: 10px;
+				  box-sizing: border-box;
+				  border-color: #fff;
+				  border-width: medium;
+				  padding: 8px 24px;
+				  font-family: "Arial";
+				  font-size: 10pt;
+				  color: #fff;
+				  text-align: center;
+				  text-shadow: 1px 1px #000;
+				  background: rgba(68, 68, 68, 0.9);
+				  box-shadow: 0 1px 7px rgba(0, 0, 0, 0.65);
+				  -webkit-border-radius: 4px;
+				  border-radius: 15px;
+				  z-index: 9999;
+				}
+
+				#popupfoot {
+				  font-size: 16pt;
+				  position: absolute;
+				  bottom: 25px;
+				  width: 350px;
+				  left: 225px;
+				}
+
+				.btn {
+				  font-family: Arial;
+				  color: #ffffff;
+				  font-size: 14px;
+				  background: #000000;
+				  padding: 10px 20px 10px 20px;
+				  text-decoration: none;
+				  border-radius: 10px;
+				}
+
+				.btn:hover {
+				  background: #363636;
+				  text-decoration: none;
+				}
+
+				.a {
+				  color: #ffffff;
+				}
+				
+				#header {
+					font-family: Arial;
+					background-color: black;
+					/*Opacity start*/
+					-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+					filter: alpha(opacity=80);
+					-moz-opacity: 0.80;
+					-khtml-opacity: 0.8;
+					opacity: 0.8;
+					/*Opacity end*/
+					color: white;
+					position: fixed;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 90px;
+					padding: 0;
+					margin: 0;
+				}
+				#header #header-content {
+					margin: 10px;
+				}
+			.leaflet-top .leaflet-control {
+			margin-top:100px;
+			}
+			
 		</style>	
 	</head>
 
 	<body>
+		
+		<div id="boxes">
+			<div id="dialog" class="window">
+			  <h1>Welcome to the Vampire Weekend Songs Map!</h1>
+			  <h2>I had inspiration on my drive in to work one morning, "Hey Ezra mentions a lot of places in his lyrics, let's map'em!"<br>This could be a comprehensive list of places mentioned in Vampire Weekend songs, altough I admit there  could be a few missing.<br>Here are some interesting things:<br>-Most of the places mentioned are in NYC-<br>-Democratic Republic of the Congo was not specifically mentioned, but the kwassa kwassa dance was started there-<br>-The Tokugawa mentioned may have been a person, but I took it as the shogunate, which had a palace and therefor a location-<br>-I used Zion and Babylon in their traditional location sense, not in theological sense-<br>-Lincoln, NE was used for "Lincoln" as it fits in the route between Providence and Phoenix-<br>-There are also a few places that I could not find, in particular "Waverly."  There are quite a few places in the world named this, so it currently lives at Null Island (0,0) until it's confirmed which Waverly is being used-<br>-The Hudson River is the only body of water mentioned-<br>-The biggest surprise was that the song "Holiday" doesn't actually mention any specific places.  If anyone knows where the holiday takes places, I'll move the point to that location-<br></h2>
+			  <div id="popupfoot"><h2>
+				<a class="btn close agree">Quit yer yappin' and let's look around!</a><br></h2>
+			  </div>
+			</div>
+
+			</div>
+		 </div>
+
 		<div id="map"></div>
-		<script src="vampireweekend/location.js" type="text/javascript"></script>
+		<script src="location.js" type="text/javascript"></script>
 		<script>
 		
 			var map = L.map('map').setView([0, 0], 3);
@@ -27,7 +149,7 @@
 			
 			function onEachFeature(feature, layer) {
 				var popupContent = "<p>I'm located at " +
-						feature.properties.Location + ", and I was mentioned on the track &quot" + feature.properties.Track + "&quot!</p>";
+						feature.properties.Location + ", and I was mentioned on the track &quot" + feature.properties.Track + "&quot!</p>" + "<a href=" + feature.properties.Link + " target=blank>More Information</a></p>";
 
 				if (feature.properties && feature.properties.popupContent) {
 					popupContent += feature.properties.popupContent;
@@ -67,6 +189,59 @@
 			map.on('click', onMapClick);
 			
 		</script>
+		
+		  		<div id="header" class="window">
+			<div id="header-content">
+				<h1>Places Mentioned in Vampire Weekend Songs</h1>
+				<p>A map by <a href="http://twitter.com/hr404photos" target="_blank">hr404</a></p>
+			</div>
+		</div>
+		
+		  <script>
+    $(document).ready(function() {
+
+      var id = '#dialog';
+
+      //Get the screen height and width
+      //var maskHeight = $(document).height();
+      //var maskWidth = $(window).width();
+
+      //Set heigth and width to mask to fill up the whole screen
+      //$('#mask').css({'width':maskWidth,'height':maskHeight});
+
+      //transition effect
+      //$('#mask').fadeIn(500);
+      //$('#mask').fadeTo("slow",0.9);
+
+      //Get the window height and width
+      var winH = $(window).height();
+      var winW = $(window).width();
+
+      //Set the popup window to center
+      $(id).css('top', winH / 2 - $(id).height() / 2);
+      $(id).css('left', winW / 2 - $(id).width() / 2);
+
+      //transition effect
+      $(id).fadeIn(1000);
+
+      //if close button is clicked
+      $('.window .close').click(function(e) {
+        //Cancel the link behavior
+        e.preventDefault();
+
+        $('#mask').hide();
+        $('.window').hide();
+      });
+
+      //if mask is clicked
+      //$('#mask').click(function () {
+      //$(this).hide();
+      //  $('.window').hide();
+      //  });
+
+    });
+  </script>
+		
 	</body>
 
 </html>
