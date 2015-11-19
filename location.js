@@ -181,7 +181,7 @@ var data = {
             "geometry" : {
                 "type" : "Point",
                 "coordinates" : ["-73.972466999999995","40.708907000000004"]},
-        "properties" : { "Location" : "Iconic video filmed in NYC (40.708907, -73.972467)", "Track" : "Diane Young", "Link" : "https://en.wikipedia.org/wiki/Diane_Young"}
+        "properties" : { "Location" : "a pier in NYC where an iconic vido was filmed (40.708907, -73.972467)", "Track" : "Diane Young", "Link" : "https://en.wikipedia.org/wiki/Diane_Young"}
         },
          { "type" : "Feature",
         "id" : 26,
